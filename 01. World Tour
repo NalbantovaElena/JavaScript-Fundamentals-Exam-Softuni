@@ -1,0 +1,59 @@
+function solve(input) {
+    let str = input.shift()
+    //console.log(str)
+    let commands = input.shift()
+    while (commands !== 'Travel') {
+        let tokens = commands.split(':')
+        if (tokens[0] === 'Add Stop') {
+            addStop(tokens[1], tokens[2])
+        } else if (tokens[0] === 'Remove Stop') {
+            removeStop(tokens[1], tokens[2])
+        } else if (tokens[0] === 'Switch') {
+            switchCommand(tokens[1], tokens[2])
+        }
+        commands = input.shift()
+    }
+
+    function addStop(index, string) {
+        //Add Stop:{index}:{string}":
+        index = Number(index)
+
+        if (str.indexOf(index)) {
+            str = str.split('')
+            str.splice(index, 0, string)
+            str = str.join('')
+        }
+        console.log(str)
+    }
+
+    function removeStop(startIndex, endIndex) {
+        startIndex = Number(startIndex)
+        endIndex = Number(endIndex)
+        if (
+            startIndex >= 0 &&
+            startIndex < str.length &&
+            endIndex >= 0 &&
+            endIndex < str.length &&
+            startIndex <= endIndex
+        ) {
+            str = str.split('')
+            str.splice(startIndex, endIndex - startIndex + 1)
+            str = str.join('')
+        }
+        //Remove Stop:{start_index}:{end_index}":
+        console.log(str)
+    }
+
+    function switchCommand(oldString, newString) {
+        //Switch:{old_string}:{new_string}":
+        // if (oldString !== newString) {
+        //     while (str.includes(oldString)) {
+        //         str = str.replace(oldString, newString)
+        //     }
+        // }
+        let regEx = new RegExp(oldString, 'g');
+        str = str.replace(regEx, newString);
+        console.log(str)
+    }
+    console.log(`Ready for world tour! Planned stops: ${str}`)
+}
