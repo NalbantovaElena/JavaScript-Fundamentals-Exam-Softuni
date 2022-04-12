@@ -1,0 +1,32 @@
+function solve(input) {
+    let arr = []
+    let array = []
+    let regEx = /([@\/#])(?<firstWord>([A-Za-z]+){3,})\1{2}(?<secondWord>([A-Za-z]+){3,})\1/g
+    let item = regEx.exec(input)
+
+    while (item) {
+        if (item !== null) {
+            let { firstWord, secondWord } = item.groups
+            array.push(item.groups)
+            //console.log(firstWord, secondWord)
+            let reverceWord = secondWord.split("").reverse().join("")
+            if (firstWord === reverceWord) {
+                arr.push(`${firstWord} <=> ${secondWord}`)
+            }
+            //console.log(reverceWord)
+            item = regEx.exec(input)
+        }
+    }
+    if(array.length===0){
+        console.log(`No word pairs found!`)
+    }else{
+        console.log(`${array.length} word pairs found!`)
+    }
+    if(arr.length===0){
+        console.log(`No mirror words!`)
+    }else{
+        console.log(`The mirror words are:`)
+        console.log(arr.join(', '))
+    }
+
+}
