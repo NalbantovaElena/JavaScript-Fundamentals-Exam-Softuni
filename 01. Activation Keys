@@ -1,0 +1,48 @@
+function solve(input) {
+    let str = input.shift()
+    let commands = input.shift()
+    while (commands !== 'Generate') {
+        let tokens = commands.split('>>>')
+        if (tokens[0] === 'Contains') {
+            contains(tokens[1])
+        } else if (tokens[0] === 'Flip') {
+            flip(tokens[1], tokens[2], tokens[3])
+        } else if (tokens[0] === 'Slice') {
+            slice(tokens[1], tokens[2])
+        }
+        commands = input.shift()
+    }
+
+    function contains(substring) {
+        //Contains>>>{substring}
+        if (str.includes(substring)) {
+            console.log(`${str} contains ${substring}`)
+        } else {
+            console.log(`Substring not found!`)
+        }
+    }
+    function flip(upperLower, startIndex, endIndex) {
+        startIndex = Number(startIndex)
+        endIndex = Number(endIndex)
+        if (upperLower === 'Upper') {
+            let replaceStr = str.substring(startIndex, endIndex).toUpperCase()
+            str = str.substring(0, startIndex) + replaceStr + str.substring(endIndex, str.length + 1)
+            console.log(str)
+
+        } else if (upperLower === 'Lower') {
+            let replaceStr = str.substring(startIndex, endIndex).toLowerCase()
+            str = str.substring(0, startIndex) + replaceStr + str.substring(endIndex, str.length + 1)
+            console.log(str)
+        }
+        //•	"Flip>>>Upper/Lower>>>{startIndex}>>>{endIndex}":
+    }
+
+    function slice(startIndex, endIndex) {
+        startIndex = Number(startIndex)
+        endIndex = Number(endIndex)
+        str = str.substring(0, startIndex) + '' + str.substring(endIndex, str.length + 1)
+        //Slice>>>{startIndex}>>>{endIndex}"
+        console.log(str)
+    }
+    console.log(`Your activation key is: ${str}`)
+}
