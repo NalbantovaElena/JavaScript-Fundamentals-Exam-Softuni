@@ -1,0 +1,73 @@
+function solve(input) {
+    let obj = {}
+    let count = Number(input.shift())
+    for (let i = 0; i < count; i++) {
+        let [piece, composer, key] = input.shift().split('|')
+        obj[piece] = { composer, key }
+
+    }
+    let command = input.shift()
+    while (command !== 'Stop') {
+        let commands = command.split('|')
+        if (commands[0] === 'Add') {
+            add(commands[1], commands[2], commands[3])
+            // let composer = commands[2]
+            // let key = commands[3]
+            // if (!obj.hasOwnProperty(commands[1])) {
+            //     obj[commands[1]] = { composer, key }
+            //     console.log(`${commands[1]} by ${composer} in ${key} added to the collection!`)
+            // } else {
+            //     console.log(`${commands[1]} is already in the collection!`)
+            // }
+        } else if (commands[0] === 'Remove') {
+            remove(commands[1])
+            // if (obj.hasOwnProperty(commands[1])) {
+            //     delete obj[commands[1]]
+            //     console.log(`Successfully removed ${commands[1]}!`)
+            // } else {
+            //     console.log(`Invalid operation! ${commands[1]} does not exist in the collection.`)
+            // }
+        } else if (commands[0] === 'ChangeKey') {
+            changeKey(commands[1], commands[2])
+            // if (obj.hasOwnProperty(commands[1])) {
+            //     obj[commands[1]].key = commands[2]
+            //     console.log(`Changed the key of ${commands[1]} to ${commands[2]}!`)
+            // } else {
+            //     console.log(`Invalid operation! ${commands[1]} does not exist in the collection.`)
+            // }
+        }
+        command = input.shift()
+    }
+    let sort = Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]))
+
+    sort.forEach(element => {
+        console.log(`${element[0]} -> Composer: ${element[1].composer}, Key: ${element[1].key}`)
+        //console.log(`element`)
+    })
+
+    function add(piece, composer, key) {
+        if (!obj.hasOwnProperty(piece)) {
+            obj[piece] = { composer, key }
+            console.log(`${piece} by ${composer} in ${key} added to the collection!`)
+        } else {
+            console.log(`${piece} is already in the collection!`)
+        }
+    }
+
+    function remove(piece) {
+        if (obj.hasOwnProperty(piece)) {
+            delete obj[piece]
+            console.log(`Successfully removed ${piece}!`)
+        } else {
+            console.log(`Invalid operation! ${piece} does not exist in the collection.`)
+        }
+    }
+    function changeKey(piece, key) {
+        if (obj.hasOwnProperty(piece)) {
+            obj[piece].key = key
+            console.log(`Changed the key of ${piece} to ${key}!`)
+        } else {
+            console.log(`Invalid operation! ${piece} does not exist in the collection.`)
+        }
+    }
+}
