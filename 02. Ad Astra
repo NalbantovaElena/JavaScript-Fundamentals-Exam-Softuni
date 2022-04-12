@@ -1,0 +1,34 @@
+unction solve(input) {
+    result = []
+    let totalCalories = 0
+    let regEx = /([|\|#])(?<name>([A-Za-z\s]+))\1(?<date>(\d{2}\/\d{2}\/\d{2}))\1(?<cal>(\d{1,5}))\1/g
+    let item = regEx.exec(input)
+    while (item) {
+        if (item !== null) {
+
+            let { name, date, cal } = item.groups
+            cal = Number(cal)
+            totalCalories += cal
+
+            result.push(item.groups)
+            //console.log(item)
+            item = regEx.exec(input)
+
+
+
+        }
+
+    }
+    //console.log(totalCalories)
+    //console.log(result)
+    let days = Math.floor(totalCalories / 2000)
+    console.log(`You have food to last you for: ${days} days!`)
+    for(let value of result){
+    //console.log(value)
+    console.log(`Item: ${value.name}, Best before: ${value.date}, Nutrition: ${value.cal}`)
+    }
+
+    // let {name, date, cal} = item.groups
+
+
+}
