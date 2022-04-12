@@ -1,0 +1,19 @@
+function solve(input) {
+    let travelPoints = 0
+    let places = []
+    let regEx = /([=\/])(?<place>[A-Z]([A-Za-z)]){2,})\1/g
+    let item = regEx.exec(input)
+    while (item) {
+        if (item !== null) {
+            let { place } = item.groups
+          
+            travelPoints += place.length
+            item = regEx.exec(input)
+            places.push(place)
+        }
+      
+    }
+    
+    console.log(`Destinations: ${places.join(', ')}`)
+    console.log(`Travel Points: ${travelPoints}`)
+}
