@@ -1,0 +1,77 @@
+function solve(input) {
+    let obj = {}
+    let count = Number(input.shift())
+    for (let i = 0; i < count; i++) {
+        let [car, mileage, fuel] = input.shift().split('|')
+        //console.log(car)
+        mileage = Number(mileage)
+        fuel = Number(fuel)
+        obj[car] = { mileage, fuel }
+    }
+    let commands = input.shift()
+    while (commands !== 'Stop') {
+        let tokens = commands.split(' : ')
+        tokens[2] = Number(tokens[2])
+        //Drive : {car} : {distance} : {fuel}
+        if (tokens[0] === 'Drive') {
+            drive(tokens[1], tokens[2], tokens[3])
+        } else if (tokens[0] === 'Refuel') {
+            refuel(tokens[1], tokens[2])
+        } else if (tokens[0] === 'Revert') {
+            revert(tokens[1], tokens[2])
+        }
+        commands = input.shift()
+    }
+
+    function drive(car, distance, fuel) {
+        if (obj[car].fuel < fuel) {
+            console.log(`Not enough fuel to make that ride`)
+        } 
+        if(obj[car].fuel > fuel) {
+            obj[car].mileage += distance
+            obj[car].fuel -= fuel
+            console.log(`${car} driven for ${distance} kilometers. ${fuel} liters of fuel consumed.`)
+         if (obj[car].mileage >= 100000) {
+                delete obj[car]
+                console.log(`Time to sell the ${car}!`)
+
+            }
+
+        }
+
+
+    }
+    function refuel(car, fuel) {
+        // let rest = 75 - obj[car].fuel
+        // if (fuel > rest) {
+        //     fuel = rest
+        //     obj[car].fuel += fuel
+        // }
+        // obj[car].fuel += fuel
+        // console.log(`${car} refueled with ${fuel} liters`)
+        let sumFuel = obj[car].fuel + fuel;
+        if ((sumFuel) >= 75) {
+            console.log(`${car} refueled with ${75 - obj[car].fuel} liters`);
+            obj[car].fuel = 75;
+            
+        } else {
+            obj[car].fuel += fuel;
+            console.log(`${car} refueled with ${fuel} liters`);
+
+        }
+    }
+    function revert(car, kilometers) {
+        obj[car].mileage -= kilometers
+        if (obj[car].mileage < 10000) {
+            obj[car].mileage = 10000
+        } else {
+            console.log(`${car} mileage decreased by ${kilometers} kilometers`)
+        }
+
+    }
+
+    let sort = Object.entries(obj).sort((a, b) => b[1].mileage - a[1].mileage || a[0].localeCompare(b[0]))
+    sort.forEach(element => {
+        console.log(`${element[0]} -> Mileage: ${element[1].mileage} kms, Fuel in the tank: ${element[1].fuel} lt.`)
+    })
+}
