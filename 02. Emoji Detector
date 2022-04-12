@@ -1,0 +1,22 @@
+function solve(input) {
+    let str = input.shift()
+    let regExDigits = /[0-9]/g
+    let regExLetter = /[A-Za-z]/g
+    let regEx = /([:]{2}|[*]{2})([A-Z][a-z]{2,})\1/g
+    let patternDigts = str.match(regExDigits)
+    let coolThresholdSum = patternDigts.map(x => Number(x)).reduce((a, b) => a * b)
+    console.log(`Cool threshold: ${coolThresholdSum}`)
+    let pattern = str.match(regEx)
+    console.log(`${pattern.length} emojis found in the text. The cool ones are:`)
+    pattern.forEach(element => {
+        let sumAscii = 0;
+        //element = element.substring(2, element.length - 2)
+        let patternLetter = element.match(regExLetter)
+        patternLetter.forEach(el => {
+            sumAscii += el.charCodeAt()
+        })
+        if (sumAscii > coolThresholdSum){
+            console.log(element)
+        }
+    });
+}
